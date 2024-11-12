@@ -1,0 +1,223 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>版本信息</title>
+    <link rel="stylesheet" href={% static "css/bootstrap.min.css" %} type="text/css">
+    <link rel="stylesheet" href={% static "css/bootstrap-icons.css" %} type="text/css">
+    <link rel="stylesheet" href={% static "css/jquery-ui.min.css" %} type="text/css">
+    <script src={% static 'js/jquery-3.5.1.js' %}></script>
+    <script src={% static 'js/jquery-ui.min.js' %}></script>
+    <script src={% static 'js/common.js' %}></script>
+    <style>
+        .success-icon {
+            color: #28a745;
+        }
+        .fail-icon {
+            color: #dc3545;
+        }
+        .warn-icon {
+            color: #ffc107;
+        }
+    </style>
+</head>
+<body>
+<div class="container-fluid p-3">
+    <div class="text-center" style="height:115px;padding-top:30px;">
+        <img src="{% static "img/logo_v1.png" %}" style="width:180px" alt="logo">&nbsp;&nbsp;
+        <span class="c-white fs-4" style="vertical-align: bottom;">系统更新说明</span><br>
+    </div>
+    <div style="padding-left: 5%;padding-right: 5%">
+        <table class="table table-sm table-bordered" role="grid">
+            <thead class="thead-light">
+            <tr role="row">
+                <th class="text-center tablesorter-header tablesorter-headerUnSorted"
+                    style="user-select: none;background-color: #e9ecef;"
+                    data-column="0" tabindex="0" scope="col" role="columnheader" aria-disabled="false" aria-sort="none">
+                    <div class="tablesorter-header-inner">版本号</div>
+                </th>
+                <th class="text-center tablesorter-header tablesorter-headerUnSorted"
+                    style="user-select: none;background-color: #e9ecef;"
+                    data-column="1" tabindex="0" scope="col" role="columnheader" aria-disabled="false" aria-sort="none">
+                    <div class="tablesorter-header-inner">更新说明</div>
+                </th>
+                <th class="text-center tablesorter-header tablesorter-headerUnSorted"
+                    style="user-select: none;background-color: #e9ecef;"
+                    data-column="2" tabindex="0" scope="col" role="columnheader" aria-disabled="false" aria-sort="none">
+                    <div class="tablesorter-header-inner">发布情况</div>
+                </th>
+            </tr>
+            </thead>
+            <tbody aria-live="polite" aria-relevant="all">
+            <tr>
+                <td>
+                    v2022.12.31
+                </td>
+                <td class="text-center">
+                    系统初始化测试
+                </td>
+                <td class="text-center">
+                    <span class="bi bi-check-circle-fill success-icon"></span> 完成
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    v2023.1.3
+                </td>
+                <td class="text-center">
+                    后台管理系统完善
+                </td>
+                <td class="text-center">
+                    <span class="bi bi-check-circle-fill success-icon"></span> 完成
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    v2023.1.4
+                </td>
+                <td class="text-center">
+                    系统升级页面完善；页面增加是否启用参数；后端函数优化
+                </td>
+                <td class="text-center">
+                    <span class="bi bi-check-circle-fill success-icon"></span> 完成
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    v2023.1.5
+                </td>
+                <td class="text-center">
+                    已完全接入新浪网系统；搜索机制优化；sql语句优化
+                </td>
+                <td class="text-center">
+                    <span class="bi bi-check-circle-fill success-icon"></span> 完成
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    v2023.1.6.Preview
+                </td>
+                <td class="text-center">
+                    已接入网易新闻系统；后台管理系统完善；保证时效性，已修改系统更新参数
+                </td>
+                <td class="text-center">
+                    <span class="bi bi-x-circle-fill fail-icon"></span> 已取消
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    v2023.1.6.Release
+                </td>
+                <td class="text-center">
+                    已接入搜狐网和央视网部分类型；优化函数；系统整体测试：清空所有数据，并自今日起，每日进行数据更新，日志系统最低级别为INFO
+                </td>
+                <td class="text-center">
+                    <span class="bi bi-check-circle-fill success-icon"></span> 完成
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    v2023.1.7
+                </td>
+                <td class="text-center">
+                    系统整体测试
+                </td>
+                <td class="text-center">
+                    <span class="bi bi-check-circle-fill success-icon"></span> 完成
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    v2023.1.11
+                </td>
+                <td class="text-center">
+                    系统性能优化；增加索引，优化搜索机制；暂时关闭不必要的功能；支持了模糊搜索
+                </td>
+                <td class="text-center">
+                    <span class="bi bi-check-circle-fill success-icon"></span> 完成
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    v2023.1.23
+                </td>
+                <td class="text-center">
+                    修复部分bug，该部分bug曾导致搜索部分英文词汇时耗时巨大且结果不正确
+                </td>
+                <td class="text-center">
+                    <span class="bi bi-check-circle-fill success-icon"></span> 完成
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    v2023.1.24
+                </td>
+                <td class="text-center">
+                    系统功能优化，此版本为正式版1.0
+                </td>
+                <td class="text-center">
+                    <span class="bi bi-check-circle-fill success-icon"></span> 完成
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    v2023.1.31
+                </td>
+                <td class="text-center">
+                    增加用户搜索日志；增加新闻推荐功能
+                </td>
+                <td class="text-center">
+                    <span class="bi bi-check-circle-fill success-icon"></span> 完成
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    v2023.2.2
+                </td>
+                <td class="text-center">
+                    完善新闻推荐功能，修复了 '空格'符号 与 '+'符号 在搜索时可能遇到错误的问题
+                </td>
+                <td class="text-center">
+                    <span class="bi bi-exclamation-circle-fill warn-icon"></span> 未完成
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    v2023.2.15
+                </td>
+                <td class="text-center">
+                    后台增加大屏页面，系统功能优化，此版本为正式版1.1
+                </td>
+                <td class="text-center">
+                    <span class="bi bi-check-circle-fill success-icon"></span> 完成
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    v2023.3.5
+                </td>
+                <td class="text-center">
+                    整体优化，此版本为正式版1.2
+                </td>
+                <td class="text-center">
+                    <span class="bi bi-check-circle-fill success-icon"></span> 完成
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    v2023.3.15
+                </td>
+                <td class="text-center">
+                    优化加载速度和更新速度，增加新的自定义字段，此版本为正式版1.3
+                </td>
+                <td class="text-center">
+                    <span class="bi bi-check-circle-fill success-icon"></span> 完成
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

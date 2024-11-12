@@ -1,0 +1,510 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>数据看板</title>
+    <script src='{% static 'js/jquery-3.5.1.js' %}'></script>
+    <script src='{% static 'js/jquery-ui.min.js' %}'></script>
+    <script src='{% static 'js/echarts.min.js' %}'></script>
+    <script src='{% static 'js/themes/china.js' %}'></script>
+    <script src='{% static 'js/themes/macarons.js' %}'></script>
+    <script src='{% static 'js/themes/shine.js' %}'></script>
+    <script src='{% static 'js/common.js' %}'></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        html,
+        body {
+            height: 100%;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        body {
+            background: url('{% static 'img/bs_back.png' %}');
+            color: white;
+            padding: 5px;
+        }
+
+        header {
+            height: 1.05rem;
+            background: url('{% static 'img/head_bg.png' %}') no-repeat center center;
+            background-size: 100% 100%;
+            position: relative;
+            z-index: 100;
+        }
+
+        header,
+        footer {
+            height: 5vh;
+            text-align: center;
+        }
+
+        .content,
+        .left,
+        .right {
+            height: 90vh;
+        }
+
+        .left,
+        .right {
+            width: 25%;
+        }
+
+        .content {
+            display: -webkit-box;
+            display: -moz-box;
+            width: 100%;
+        }
+
+
+        .middle {
+            /* -webkit-box-flex: 1; */
+            /* -moz-box-flex: 1; */
+            /* word-wrap: break-word; */
+            width: 50%;
+        }
+
+
+        .panel-top {
+            height: 10%;
+            margin: 8px;
+        }
+
+        .panel-middle,
+        .panel-bottom {
+            height: 45%;
+            margin: 8px;
+        }
+
+        .middle-main {
+            height: 80%;
+            margin: 8px;
+        }
+
+        .middle-supple {
+            height: 20%;
+            margin: 8px;
+        }
+
+        .custom-button {
+            width: 50%;
+            height: 50%;
+            font-size: 16px;
+            color: #fff;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            outline: none;
+            border: none;
+            cursor: pointer;
+            position: relative;
+            -webkit-transition: all 0.7s ease;
+            transition: all 0.7s ease;
+        }
+
+        .custom-button:hover {
+            background: transparent;
+            border: 1px white solid;
+        }
+
+        .vertical-middle {
+            transform: translateY(50%);
+        }
+
+        .decoration {
+            border: 1px solid rgba(13, 150, 253, .17);
+            background: rgba(255, 255, 255, .04) url('{% static 'img/line.png' %}');
+            background-size: 100% auto;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* 表格元素样式 */
+        .plan_box {
+            overflow-y: hidden;
+            overflow-x: hidden;
+        }
+
+        .plan_box:hover {
+            overflow-y: scroll;
+        }
+
+        .plan_box::-webkit-scrollbar {
+            height: 0;
+            width: 0;
+            color: transparent;
+        }
+
+        .plan_box table {
+            border-spacing: 0;
+        }
+
+        .plan_box table thead tr:nth-child(2n+1) {
+            background-color: rgb(29, 48, 76);
+        }
+
+        .plan_box table tr {
+            height: 40px;
+            font-size: 14px;
+            color: rgb(255, 255, 255);
+            font-weight: 400;
+        }
+
+        .plan_box table tr:nth-child(2n) {
+            background-color: rgb(10, 28, 59);
+        }
+
+        .plan_box table .head {
+            font-size: 14px;
+            color: rgb(255, 255, 255);
+            line-height: 14px;
+            font-weight: 600;
+        }
+
+    </style>
+</head>
+<body>
+<header>
+    <div class="header">
+        <h1 style="font-size: 1.5rem;">数据看板</h1>
+    </div>
+</header>
+<div class="content">
+    <div class="left">
+        <div class="panel-top">
+            <button type="button" class="custom-button vertical-middle" onclick="location.reload();">刷新</button>
+        </div>
+        <div class="panel-middle decoration">
+            <div id="wztj" style="width:100%;height:100%">加载中...</div>
+        </div>
+        <div class="panel-bottom decoration">
+            <div id="lxtj" style="width:100%;height:100%">加载中...</div>
+        </div>
+    </div>
+    <div class="middle">
+        <div class="middle-main decoration">
+            <div id="dttj" style="width:100%;height:100%">加载中...</div>
+        </div>
+        <div class="middle-supple decoration">
+            <div id="xwfwtj" style="width:100%;height:100%">加载中...</div>
+        </div>
+    </div>
+    <div class="right">
+        <div class="panel-top">
+            <button id="fresh-time" type="button" class="custom-button vertical-middle" style="width: 90%"
+                    onclick="location.reload();">加载中...
+            </button>
+        </div>
+        <div class="panel-middle decoration">
+            <div class="sstj" style="width: 100%; height: 100%;">加载中...</div>
+        </div>
+        <div class="panel-bottom decoration">
+            <div class="gxtj" style="width: 100%; height: 100%;">加载中...</div>
+        </div>
+    </div>
+</div>
+<footer>
+    <div class="footer">
+        <h4 style="transform: translateY(70%);">本系统仅用于学习用途</h4>
+    </div>
+</footer>
+<script>
+    $().ready(function () {
+        $.ajax({
+            url: '/admin/api/getBigScreenData/',
+            type: 'POST',
+            dataType: 'json',
+            success: function (data) {
+                if (data.data) {
+                    console.log(data);
+                    // region 网站统计
+                    // 基于准备好的dom，初始化echarts实例
+                    var myChart_wztj = echarts.init(document.getElementById('wztj'), 'macarons');
+                    let nameList = data.sourceEntities.map((item, index) => {
+                        return item.name;
+                    });
+                    let colorList = ['#34DBDD', '#B5A4DD', '#59B4EE', '#FFB682', '#D87880', '#8D99B2', '#E6CC28'];
+                    let valList = data.sourceEntities.map((item, index) => {
+                        return {value: item.value, itemStyle: {color: colorList[index]}}
+                    });
+                    // 指定图表的配置项和数据
+                    var option = {
+                        title: {
+                            text: '网站统计',
+                            left: 'left',
+                            padding: 10,
+                            top: 10,
+                            textStyle: {
+                                color: 'white'
+                            }
+                        },
+                        tooltip: {},
+                        xAxis: {
+                            type: 'category',
+                            data: nameList,
+                            axisLabel: {
+                                textStyle: {
+                                    color: 'white',//坐标值得具体的颜色
+                                },
+                                interval: 0,
+                            }
+                        },
+                        yAxis: {
+                            type: 'value',
+                            axisLabel: {
+                                textStyle: {
+                                    color: 'white',//坐标值得具体的颜色
+                                    fontSize: 10,
+                                }
+                            }
+                        },
+                        series: [
+                            {
+                                type: 'bar',
+                                data: valList,
+                            }
+                        ]
+                    };
+                    // 使用刚指定的配置项和数据显示图表。
+                    myChart_wztj.setOption(option);
+                    // endregion
+                    // region 类型统计
+                    // 基于准备好的dom，初始化echarts实例
+                    var myChart_lxtj = echarts.init(document.getElementById('lxtj'), 'macarons');
+                    // 指定图表的配置项和数据
+                    var option = {
+                        title: {
+                            text: '类别统计',
+                            left: 'left',
+                            padding: 10,
+                            top: 10,
+                            textStyle: {
+                                color: 'white'
+                            }
+                        },
+                        tooltip: {
+                            trigger: 'item',
+                        },
+                        legend: {
+                            bottom: '1%',
+                            left: 'left',
+                            itemHeight: 12,
+                            itemWidth: 12,
+                            textStyle: {
+                                color: 'white',
+                                fontSize: 12,
+                            }
+                        },
+                        series: [
+                            {
+                                type: 'pie',
+                                radius: ['40%', '70%'],
+                                avoidLabelOverlap: false,
+                                emphasis: {
+                                    label: {
+                                        show: true,
+                                    }
+                                },
+                                labelLine: {
+                                    show: true
+                                },
+                                data: data.typeEntities,
+                            }
+                        ]
+                    };
+                    // 使用刚指定的配置项和数据显示图表。
+                    myChart_lxtj.setOption(option);
+                    // endregion
+                    // region 地图统计
+                    // 初始化echarts实例
+                    var myEcharts_dttj = echarts.init(document.getElementById("dttj"), 'shine');
+                    var option = {
+                        title: {  //标题样式
+                            left: 'left',
+                            padding: 10,
+                            top: 10,
+                            textStyle: {
+                                color: 'white'
+                            }
+                        },
+                        tooltip: {  //这里设置提示框
+                            trigger: 'item',  //数据项图形触发
+                            backgroundColor: "white",  //提示框浮层的背景颜色。
+                            //字符串模板(地图): {a}（系列名称），{b}（区域名称），{c}（合并数值）,{d}（无）
+                            formatter: function (val) {
+                                if (val.value) {
+                                    return `${val.name}<br/>查询次数：${val.value}，电脑端：${val.data.pc}，手机端：${val.data.mobile}`
+                                } else {
+                                    return `${val.name}<br/>查询次数：0，电脑端：0，手机端：0`
+                                }
+                            }
+                        },
+                        visualMap: {//视觉映射组件
+                            top: 'center',
+                            left: 'left',
+                            min: 0,
+                            max: 100,
+                            text: ['最高', '最低'],
+                            realtime: false,  //拖拽时，是否实时更新
+                            calculable: false,  //是否显示拖拽用的手柄
+                            inRange: {
+                                color: [
+                                    '#313695',
+                                    '#4575b4',
+                                    '#74add1',
+                                    '#abd9e9',
+                                    '#e0f3f8',
+                                    '#ffffbf',
+                                ]
+                            },
+                            textStyle: {
+                                color: 'white'
+                            }
+                        },
+                        series: [
+                            {
+                                name: '查询次数',
+                                type: 'map',
+                                mapType: 'china',
+                                roam: false,//是否开启鼠标缩放和平移漫游
+                                itemStyle: {//地图区域的多边形 图形样式
+                                    normal: {//是图形在默认状态下的样式
+                                        label: {
+                                            show: false,//是否显示标签
+                                        }
+                                    },
+                                    zoom: 1,  //地图缩放比例,默认为1
+                                    emphasis: {//是图形在高亮状态下的样式,比如在鼠标悬浮或者图例联动高亮时
+                                        label: {
+                                            show: true,
+                                            textStyle: {
+                                                color: 'white',
+                                            }
+                                        },
+                                    }
+                                },
+                                top: "3%",//组件距离容器的距离
+                                data: data.ipEntities,
+                            }
+                        ]
+                    };
+                    // 使用刚指定的配置项和数据显示图表。
+                    myEcharts_dttj.setOption(option);
+                    // endregion
+                    // region 新闻访问统计
+                    var myChart_xwfwtj = echarts.init(document.getElementById('xwfwtj'), 'macarons');
+                    let titleList = data.pageviewEntities.map((item, index) => {
+                        return item.title;
+                    });
+                    let valueList = data.pageviewEntities.map((item, index) => {
+                        return {value: item.value, itemStyle: {color: colorList[index]}}
+                    });
+                    var option = {
+                        title: {
+                            text: '新闻访问量统计',
+                            left: 'left',
+                            padding: 10,
+                            top: 10,
+                            textStyle: {
+                                color: 'white'
+                            }
+                        },
+                        tooltip: {
+                            trigger: 'axis',
+                            axisPointer: {
+                                type: 'shadow'
+                            }
+                        },
+                        legend: {
+                            show: false,
+                        },
+                        grid: {
+                            left: '3%',
+                            right: '4%',
+                            bottom: '3%',
+                            containLabel: true
+                        },
+                        xAxis: {
+                            type: 'value',
+                            boundaryGap: [0, 0.01],
+                            axisLabel: {
+                                textStyle: {
+                                    color: 'white',//坐标值得具体的颜色
+                                },
+                            }
+                        },
+                        yAxis: {
+                            type: 'category',
+                            data: titleList.reverse(),
+                            axisLabel: {
+                                textStyle: {
+                                    color: 'white',//坐标值得具体的颜色
+                                },
+                                interval: 0,
+                                formatter: function (value) {
+                                    return value.length > 10 ? `${value.slice(0, 10)}...` : value;
+                                }
+                            },
+                        },
+                        series: [
+                            {
+                                name: '访问量',
+                                type: 'bar',
+                                data: valueList.reverse(),
+                            },
+                        ]
+                    };
+                    myChart_xwfwtj.setOption(option);
+                    // endregion
+                    // region 搜索统计
+                    let table_sstj = `<div class="plan_box" style="width: 100%; height: 100%;"><table style="width: 100%; height: 100%;"><thead><td class="head" style="width: 50%;">搜索内容</td><td class="head" style="width: 50%;">搜索时间</td></thead><tbody>`;
+                    let searchEntities = data.searchEntities;
+                    for (var item in searchEntities) {
+                        var searchtime = new Date(searchEntities[item].searchtime).format('yyyy-MM-dd hh:mm:ss');
+                        table_sstj += `<tr><td>${searchEntities[item].searchcontent}</td><td>${searchtime}</td></tr>`
+                    }
+                    table_sstj += `</tbody></table></div>`
+                    $('.sstj').html(table_sstj);
+                    // endregion
+                    // region 更新统计
+                    let table_gxtj = `<div class="plan_box" style="width: 100%; height: 100%;"><table style="width: 100%; height: 100%;"><thead><td class="head" style="width: 50%;">更新信息</td><td class="head" style="width: 50%;">更新时间</td></thead><tbody>`;
+                    let updateEntities = data.updateEntities;
+                    for (var item in updateEntities) {
+                        var patchtime = new Date(updateEntities[item].patchtime).format('yyyy-MM-dd hh:mm:ss');
+                        table_gxtj += `<tr><td>${updateEntities[item].info}</td><td>${patchtime}</td></tr>`
+                    }
+                    table_gxtj += `</tbody></table></div>`
+                    $('.gxtj').html(table_gxtj);
+                    // endregion
+
+                    // region 刷新时间
+                    $('#fresh-time').html('上次刷新时间：' + (new Date()).format('yyyy-MM-dd hh:mm'));
+                    // endregion
+                    // region 自动更新大小
+                    window.addEventListener("resize", function () {
+                        console.log('resize is ok')
+                        myChart_lxtj.resize();
+                        myChart_wztj.resize();
+                        myEcharts_dttj.resize();
+                        myChart_xwfwtj.resize();
+                    });
+                    // endregion
+                } else {
+                    utils.loaded();
+                    utils.error("更新失败，请稍后再试");
+                }
+            },
+            error: function () {
+                utils.loaded();
+                utils.error("更新失败，请稍后再试")
+            }
+        })
+    })
+</script>
+</body>
+</html>

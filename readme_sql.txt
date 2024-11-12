@@ -1,0 +1,3 @@
+MySQL
+localhost_3306
+news_searcher

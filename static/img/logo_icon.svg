@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="140" height="140" viewBox="0 0 560 560">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #0d6efd;
+      }
+
+      .cls-2 {
+        fill: #fff;
+      }
+    </style>
+  </defs>
+  <ellipse id="椭圆_1" data-name="椭圆 1" class="cls-1" cx="257.078" cy="280.5" rx="247.078" ry="246.5"/>
+  <circle id="椭圆_1-2" data-name="椭圆 1" class="cls-1" cx="504.156" cy="480.265" r="46.844"/>
+  <ellipse id="椭圆_2" data-name="椭圆 2" class="cls-2" cx="258.25" cy="281.672" rx="149.875" ry="149.547"/>
+</svg>

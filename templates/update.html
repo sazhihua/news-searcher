@@ -1,0 +1,109 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>系统升级</title>
+    <link rel="stylesheet" href={% static "css/bootstrap.min.css" %} type="text/css">
+    <link rel="stylesheet" href={% static "css/bootstrap-icons.css" %} type="text/css">
+    <link rel="stylesheet" href={% static "css/jquery-ui.min.css" %} type="text/css">
+    <link rel="stylesheet" href={% static "css/common.css" %} type="text/css">
+    <link rel="stylesheet" href={% static "css/msg.css" %} type="text/css">
+    <script src={% static 'js/jquery-3.5.1.js' %}></script>
+    <script src={% static 'js/jquery-ui.min.js' %}></script>
+    <script src={% static 'js/common.js' %}></script>
+    <script src="{% static 'js/update.js' %}"></script>
+    <style>
+        .options-area-button {
+            margin: 8px;
+        }
+    </style>
+    <script>
+        $(function () {
+            $(document).tooltip();
+        });
+    </script>
+</head>
+<body>
+<div class="container-fluid p-3">
+    {% if request.user.is_authenticated %}
+        <h5>{{ request.user.last_name }}{{ request.user.first_name }}, 您好！</h5>
+        <div class="row">
+            <div class="col-auto">
+                <i class="bi bi-repeat" style="font-size: 6rem; color: var(--bs-primary);"></i>
+            </div>
+            <div class="col align-self-center">
+                <h5>系统上次更新时间：{{ data.patchtime }}</h5>
+                <h6 style="font-size: 12px;">更新信息：{{ data.info }}</h6>
+            </div>
+        </div>
+        {#        功能操作区 #}
+        <div class="border border-1 rounded p-3 options-area" style="width: fit-content;">
+            <p>更新区</p>
+            <button type="button" class="btn btn-primary options-area-button" id="btn_updateAll"
+                    onclick="updateAll()" title="删除旧数据，更新目前所有网站来源的数据，之后重新建立数据库索引。">更新所有数据
+            </button>
+            <button type="button" class="btn btn-primary options-area-button" id="btn_updateAllExceptPaper"
+                    onclick="updateAllExceptPaper()"
+                    title="删除旧数据，更新目前所有网站来源的数据，之后重新建立数据库索引，该操作不会更新人民日报数据。">
+                更新自定义数据
+            </button>
+            <button type="button" class="btn btn-outline-primary options-area-button" id="btn_updateSina"
+                    onclick="updateSina()" title="更新来自新浪新闻数据。">更新新浪网数据
+            </button>
+            <button type="button" class="btn btn-outline-primary options-area-button" id="btn_updateNetease"
+                    onclick="updateNetease()" title="更新来自网易新闻的数据。">更新网易新闻数据
+            </button>
+            <button type="button" class="btn btn-outline-primary options-area-button" id="btn_updateSohu"
+                    onclick="updateSohu()" title="更新来自搜狐新闻的数据。">更新搜狐新闻数据
+            </button>
+            <button type="button" class="btn btn-outline-primary options-area-button" id="btn_updateCCTV"
+                    onclick="updateCCTV()" title="更新来自央视新闻的数据。">更新央视网数据
+            </button>
+            <br>
+            <button type="button" class="btn btn-outline-primary options-area-button" id="btn_updatePaper"
+                    onclick="updatePaper()" title="更新来自人民日报的数据。注意：目前仅支持更新今日的数据。">更新人民日报数据
+            </button>
+            <button type="button" class="btn btn-outline-primary options-area-button" id="btn_updateIndex"
+                    onclick="updateIndex()" title="更新数据库索引文件。">更新数据库索引
+            </button>
+            <button type="button" class="btn btn-outline-primary options-area-button" id="btn_regularUpdateStart"
+                    onclick="regularUpdateStart()" title="开启自动更新数据库参数，暂不支持人民日报。">开启自动更新
+            </button>
+            <button type="button" class="btn btn-outline-primary options-area-button" id="btn_regularUpdateClose"
+                    onclick="regularUpdateClose()" title="关闭自动更新数据库参数，暂不支持人民日报。">关闭自动更新
+            </button>
+            <hr>
+            <p>操作区</p>
+            <button type="button" class="btn btn-outline-danger options-area-button" id="btn_cleanPics"
+                    onclick="cleanPics()" title="删除本地服务器上生成的所有热点图片。">清空服务器图片缓存
+            </button>
+            <button type="button" class="btn btn-outline-danger options-area-button" id="btn_deleteOldDatas"
+                    onclick="deleteOldDatas()" title="删除数据库中的旧数据，目前旧数据定义为90天前的旧新闻。">删除数据库旧数据
+            </button>
+            <hr>
+            <p>测试区</p>
+            <button type="button" class="btn btn-outline-info options-area-button" id="btn_testFrontMethod"
+                    onclick="testFrontMethod()" title="测试前台功能是否正常。">测试前台功能
+            </button>
+            <button type="button" class="btn btn-outline-info options-area-button" id="btn_testBackMethod"
+                    onclick="testBackMethod()" title="测试后台流程能否正常运转。">测试后台功能
+            </button>
+        </div>
+    {% else %}
+        <div class="f-error-container">
+            <div class="f-error-image text-center">
+                <i class="bi bi-emoji-frown"></i>
+            </div>
+            <div class="f-error-text">
+                <div class="f-error-text-content">
+                    <div class="f-error-content-text">您还未登录或会话过期，请登录后再操作！</div>
+                    <br>
+                    <div class="f-error-content-text"><a href="/admin">登录</a></div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+</div>
+</body>
+</html>

@@ -1,0 +1,77 @@
+.search-setting-left {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.search-result-count {
+    padding: 10px 0;
+}
+
+.search-result-details {
+    padding: 20px 0;
+}
+
+em {
+    font-style: normal;
+    color: var(--bs-red);
+}
+
+#pagination {
+    margin-top: 10px;
+}
+
+.recommend-news-source {
+    width: 16px;
+}
+
+.recommend-number {
+    width: 30px;
+    padding: 0 8px 0 0;
+    text-align: right;
+    letter-spacing: -1px;
+    font-family: Arial, serif;
+}
+
+.recommend-title {
+    text-decoration: none;
+}
+
+.recommend-title:hover {
+    text-decoration: underline;
+}
+
+.recommend-info {
+    padding: 0 2px;
+    background-color: var(--bs-orange);
+    border-radius: 4px;
+    font-weight: 200;
+    font-size: 12px;
+    color: var(--bs-white);
+}
+
+/*修改card的表现方式，默认为relative，会覆盖上层元素*/
+.card {
+    padding: 10px;
+    position: unset;
+}
+.text-truncate-1 {
+    -webkit-line-clamp: 1;
+}
+.text-truncate-2 {
+    -webkit-line-clamp: 2;
+}
+.text-truncate-3 {
+    -webkit-line-clamp: 3;
+}
+.text-truncate-4 {
+    -webkit-line-clamp: 4;
+}
+.text-truncate-5 {
+    -webkit-line-clamp: 5;
+}
+.text-truncate-1, .text-truncate-2, .text-truncate-3, .text-truncate-4, .text-truncate-5 {
+    overflow : hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+}

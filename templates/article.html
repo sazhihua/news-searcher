@@ -1,0 +1,139 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ data.title }}</title>
+    <link rel="stylesheet" href={% static "css/bootstrap.min.css" %} type="text/css">
+    <link rel="stylesheet" href={% static "css/bootstrap-icons.css" %} type="text/css">
+    <link rel="stylesheet" href={% static "css/jquery-ui.min.css" %} type="text/css">
+    <link rel="stylesheet" href={% static "css/article.css" %} type="text/css">
+    <link rel="stylesheet" href={% static "css/common.css" %} type="text/css">
+    <script src={% static 'js/jquery-3.5.1.js' %}></script>
+    <script src={% static 'js/jquery-ui.min.js' %}></script>
+    <script src={% static "js/bootstrap.bundle.js" %}></script>
+    <script src={% static "js/common.js" %}></script>
+    <script src={% static "js/article.js" %}></script>
+</head>
+<body>
+<div class="container-fluid">
+    <header id="header" class="row shadow-sm p-3 mb-3 bg-body rounded">
+        <div class="col-auto align-self-center">
+            <a href="/">
+                <img class="img-fluid" alt="logo" id="second-logo"
+                     src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNzguNSIgaGVpZ2h0PSI1MyIgdmlld0JveD0iMCAwIDcxNCAyMTIiPgogIDxkZWZzPgogICAgPHN0eWxlPgogICAgICAuY2xzLTEgewogICAgICAgIGZpbGw6ICMwZDZlZmQ7CiAgICAgIH0KCiAgICAgIC5jbHMtMiB7CiAgICAgICAgZm9udC1zaXplOiAyMDBweDsKICAgICAgICBmaWxsOiAjMjEyNTI5OwogICAgICAgIGZvbnQtZmFtaWx5OiAiUHJvZHVjdCBTYW5zIjsKICAgICAgfQoKICAgICAgLmNscy0zIHsKICAgICAgICBmaWxsOiAjZmZmOwogICAgICB9CiAgICA8L3N0eWxlPgogIDwvZGVmcz4KICA8Y2lyY2xlIGlkPSLmpK3lnIZfMSIgZGF0YS1uYW1lPSLmpK3lnIYgMSIgY2xhc3M9ImNscy0xIiBjeD0iMTA1LjUiIGN5PSIxMDUuNSIgcj0iMTA1LjUiLz4KICA8Y2lyY2xlIGlkPSLmpK3lnIZfMS0yIiBkYXRhLW5hbWU9IuakreWchiAxIiBjbGFzcz0iY2xzLTEiIGN4PSIyMTEiIGN5PSIxOTEiIHI9IjIwIi8+CiAgPHRleHQgaWQ9Ik5ld3MiIGNsYXNzPSJjbHMtMiIgeD0iMjMxIiB5PSIyMDkiPk5ld3M8L3RleHQ+CiAgPGNpcmNsZSBpZD0i5qSt5ZyGXzIiIGRhdGEtbmFtZT0i5qSt5ZyGIDIiIGNsYXNzPSJjbHMtMyIgY3g9IjEwNiIgY3k9IjEwNiIgcj0iNjQiLz4KPC9zdmc+Cg==">
+            </a>
+        </div>
+        <div class="col align-self-center">
+            <span class="fs-6 text-truncate-1">正在浏览：{{ data.title }}</span>
+        </div>
+        <div class="col-4 align-self-center">
+            <form name="search-form" method="get" action={% url "index-suffix" %}>
+                <div class="input-group">
+                    <input type="search" name="wd" class="form-control" placeholder="" aria-describedby="button-addon2"
+                           autocomplete="off" id="searchInput">
+                    <button class="btn btn-primary" type="submit" id="button-addon2">搜索</button>
+                </div>
+            </form>
+        </div>
+        <div class="col-auto align-self-center">
+            <ul class="nav justify-content-end">
+                <li class="nav-item">
+                    <a class="nav-link nav-article-function" href="/admin" target="_blank">登录</a>
+                </li>
+            </ul>
+        </div>
+    </header>
+    <div id="main">
+        <div class="row">
+            <div class="col"></div>
+            <div class="col-8">
+                <div class="row main-title-div">
+                    <div class="col">
+                        <h1 class="main-title">{{ data.title }}</h1>
+                    </div>
+                </div>
+                <div class="row main-publishinfo-div">
+                    <div class="col-auto align-self-center">
+                        <h6 class="main-publishinfo">{{ data.publishtime }} · {{ data.typename }}
+                            · {{ data.sourcename }}</h6>
+                    </div>
+                    <div class="col-auto align-self-center">
+                        <h6 class="main-publishinfo">浏览次数：{{ data.pageview }}</h6>
+                    </div>
+                    <div class="col align-self-center">
+                        <a class="main-publishinfo" href={{ data.url }}>原文链接</a>
+                    </div>
+                    {#                    放大缩小字体实现区域#}
+                    <div class="col-auto align-self-center">
+                        <button type="button" class="btn btn-light main-publishinfo-adjust" onclick="plusFontSize()"
+                                title="放大文字">
+                            <i class="bi bi-plus-square"></i>
+                        </button>
+                        <button type="button" class="btn btn-light main-publishinfo-adjust" onclick="dashFontSize()"
+                                title="缩小文字">
+                            <i class="bi bi-dash-square"></i>
+                        </button>
+                        <button type="button" class="btn btn-light main-publishinfo-adjust"
+                                data-bs-toggle="modal" data-bs-target="#alertReportInfo" title="举报新闻">
+                            <i class="bi bi-exclamation-square"></i>
+                        </button>
+                        <button type="button" class="btn btn-light main-publishinfo-adjust"
+                                onclick="window.opener=null;window.open('','_self');window.close();" title="关闭网页">
+                            <i class="bi bi-x-square"></i>
+                        </button>
+                        {#            举报按钮弹窗 start#}
+                        <div class="modal fade" id="alertReportInfo" data-bs-backdrop="static" data-bs-keyboard="false"
+                             tabindex="-1"
+                             aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="alertAboutInfoLabel">举报</h1>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p class="text-center">确定要举报这条新闻吗？</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消
+                                        </button>
+                                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal"
+                                                onclick="reportCurNews('{{ data.id }}')">确定
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {#            举报按钮弹窗 end#}
+                    </div>
+                </div>
+                {% if data.tags != None %}
+                    <div class="row main-publishinfo-div">
+                        <div class="col-auto align-self-center">
+                            <h6 class="main-publishinfo">关键词：{{ data.tags }}</h6>
+                        </div>
+                    </div>
+                {% endif %}
+                {% if data.pic != None %}
+                    <div class="row main-pic-div">
+                        <img alt="img" src={{ data.pic }}>
+                    </div>
+                {% endif %}
+                <div class="row main-content-div">
+                    <p class="fs-6" id="main-content">{{ data.content }}</p>
+                </div>
+                <div class="row main-recommend-div"></div>
+                <span id="article-id" style="display: none;">{{ data.id }}</span>
+            </div>
+            <div class="col"></div>
+        </div>
+    </div>
+    <footer class="row bg-light p-3 mt-5 text-center" id="footer">
+        <span>本系统仅用于学习用途</span>
+    </footer>
+</div>
+<script>
+    getRecommendDataByArticle();
+</script>
+</body>
+</html>

@@ -1,0 +1,72 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.f-error-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    min-width: 1200px;
+    transform: translate(-50%, -50%);
+    overflow: auto;
+}
+
+.f-error-container .f-error-image,
+.f-error-container .f-error-text {
+    flex: 1;
+    margin-bottom: 90px;
+}
+
+.f-error-container .f-error-image {
+    padding-right: 40px;
+}
+
+.f-error-container .f-error-image img {
+    display: block;
+    max-width: 100%;
+    margin: auto;
+}
+
+.f-error-container .f-error-text-title {
+    font-size: 90px;
+    color: var(--bs-primary);}
+
+.f-error-container .f-error-content-text {
+    font-size: 24px;
+    color: var(--bs-gray);
+    letter-spacing: 0;
+    line-height: 28px;
+}
+
+.f-error-container .f-error-content-list {
+    padding-left: 14px;
+    font-size: 18px;
+    color: var(--bs-gray);
+}
+
+.f-error-container .f-error-content-list-link {
+    color: var(--bs-primary);
+    text-decoration: none;
+}
+
+@media screen and (max-width: 520px) {
+    .f-error-container {
+        flex-direction: column;
+    }
+
+    .f-error-container .f-error-image {
+        padding-right: 0;
+    }
+}
+
+.f-error-image i {
+    font-size: 12rem;
+}
+
+.f-error-image {
+    color: var(--bs-gray);
+}

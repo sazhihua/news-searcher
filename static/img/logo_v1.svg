@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="178.5" height="53" viewBox="0 0 714 212">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #0d6efd;
+      }
+
+      .cls-2 {
+        font-size: 200px;
+        fill: #212529;
+        font-family: "Product Sans";
+      }
+
+      .cls-3 {
+        fill: #fff;
+      }
+    </style>
+  </defs>
+  <circle id="椭圆_1" data-name="椭圆 1" class="cls-1" cx="105.5" cy="105.5" r="105.5"/>
+  <circle id="椭圆_1-2" data-name="椭圆 1" class="cls-1" cx="211" cy="191" r="20"/>
+  <text id="News" class="cls-2" x="231" y="209">News</text>
+  <circle id="椭圆_2" data-name="椭圆 2" class="cls-3" cx="106" cy="106" r="64"/>
+</svg>

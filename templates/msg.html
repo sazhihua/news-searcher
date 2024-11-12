@@ -1,0 +1,45 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>提示</title>
+    <link rel="stylesheet" href={% static "css/bootstrap.min.css" %} type="text/css">
+    <link rel="stylesheet" href={% static "css/bootstrap-icons.css" %} type="text/css">
+    <link rel="stylesheet" href={% static "css/msg.css" %} type="text/css">
+</head>
+<body>
+<div class="f-error-container">
+    <div class="f-error-image text-center">
+        <i class="bi bi-emoji-frown"></i>
+        <div class="f-error-custom">
+            <h6>这是{{ errcode }}页面</h6>
+            <h6>這是{{ errcode }}頁面</h6>
+            <h6>This is a {{ errcode }} page</h6>
+            <h6>Ceci est une page {{ errcode }}</h6>
+            <h6>これは{{ errcode }}ページです</h6>
+            <h6>Это {{ errcode }} страница</h6>
+            <h6>Esta es una página {{ errcode }}</h6>
+        </div>
+    </div>
+    <div class="f-error-text">
+        <h2 class="f-error-text-title">{{ errcode }}</h2>
+        {% if errcode == '404' %}
+            <div class="f-error-text-content">
+                <div class="f-error-content-text">抱歉，您访问的页面不存在，请联系系统管理员</div>
+            </div>
+        {% elif errcode == '403' %}
+            <div class="f-error-text-content">
+                <div class="f-error-content-text">抱歉，您还未开通权限，请联系系统管理员授权</div>
+            </div>
+        {% elif errcode == '500' %}
+            <div class="f-error-text-content">
+                <div class="f-error-content-text">抱歉，服务器维护中，请联系系统管理员</div>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+</body>
+
+</html>
